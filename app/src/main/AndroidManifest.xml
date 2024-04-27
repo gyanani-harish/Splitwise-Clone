@@ -13,7 +13,7 @@
         android:theme="@style/Theme.SplitwiseClone"
         tools:targetApi="31" >
 
-        <activity android:name=".LoginActivity"
+        <activity android:name=".trxlist.TransactionsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

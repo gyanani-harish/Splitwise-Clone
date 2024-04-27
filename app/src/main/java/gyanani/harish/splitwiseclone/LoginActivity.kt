@@ -1,5 +1,6 @@
 package gyanani.harish.splitwiseclone
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -44,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
                         // Assuming 'password' is stored in plain text for demonstration purposes
                         if (document.getString("password") == password) {
                             Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                            handleDummyData()
                             break
                         } else {
                             Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
@@ -54,5 +56,22 @@ class LoginActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Error checking credentials: ${exception.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun handleDummyData() {
+        FirebaseDataHelper().checkUserAndTransactionCounts().addOnSuccessListener { result ->
+            if (result) {
+                // Logic if the condition is met
+                Log.d("CheckCounts", "Both counts are equal to 3.")
+            } else {
+                DummyDataManager.populateDummyData(FirebaseRepo())
+                // Logic if the condition is not met
+                Log.d("CheckCounts", "Counts do not match the required criteria.")
+            }
+        }.addOnFailureListener { exception ->
+            // Handle error
+            Log.d("CheckCounts", "Error checking counts: ${exception.message}")
+        }
+
     }
 }
